@@ -67,7 +67,7 @@ void logic() {
 	movement->direction(dir, &snakex, &snakey);
 	movement->border_control(&snakex, &snakey);
 }
-
+//изменение
 
 int main()
 {
