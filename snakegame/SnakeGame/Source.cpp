@@ -2,6 +2,8 @@
 #include <iostream>
 #include <conio.h>
 #include "windows.h"
+#include <time.h>
+#include "Movement.h"
 using namespace std;
 
 
@@ -13,53 +15,10 @@ char dir;
 int speed = 75;
 
 
-
-/*class movement {
-public:*/
-	void direction(char kb_char, int *x, int *y) {
-		if (kb_char == 'w' || kb_char == 'W' || kb_char == 'Ö' || kb_char == 'ö') {
-			*y -= 1;
-		}
-		else if (kb_char == 's' || kb_char == 'S' || kb_char == 'Û' || kb_char == 'û') {
-			*y += 1;
-		}
-		else if (kb_char == 'a' || kb_char == 'A' || kb_char == 'Ô' || kb_char == 'ô') {
-			*x -= 1;
-		}
-		else if (kb_char == 'd' || kb_char == 'D' || kb_char == 'Â' || kb_char == 'â') {
-			*x += 1;
-		}
-		else if (kb_char == 'x' || kb_char == 'X' || kb_char == '×' || kb_char == '×') {
-			game_over = true;
-		}
-
-	};
-
-	void border_control(int *x, int *y) {
-		switch (*x){
-		case (width+1): {
-			*x = 1;
-			break;
-		}
-		case 0: {
-			*x = width;
-			break;
-		}
-		}
-		switch (*y){
-		case (height+1): {
-			*y = 1;
-			break;
-		}
-		case 0: {
-			*y = height;
-			break;
-		}
-		}
-	}
-//};
+Movement *movement;
 
 void setup() {
+	srand((unsigned)time(NULL));
 	game_over = false;
 	snakex = width / 2;
 	snakey = height / 2;
@@ -105,13 +64,15 @@ void input() {
 
 
 void logic() {
-	direction(dir, &snakex, &snakey);
-	border_control(&snakex, &snakey);
+	movement->direction(dir, &snakex, &snakey);
+	movement->border_control(&snakex, &snakey);
 }
 
 
 int main()
 {
+	movement = new Movement(&game_over, width, height);
+
 	setup();
 	while (!game_over) {
 		field();
@@ -119,6 +80,7 @@ int main()
 		logic();
 		Sleep(speed);
 	}
+	delete movement;
 	return 0;
 }
 
