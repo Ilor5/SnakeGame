@@ -4,6 +4,7 @@
 #include "windows.h"
 #include <time.h>
 #include "Snake.h"
+#include "Field.h"
 using namespace std;
 
 
@@ -12,10 +13,11 @@ int snakex, snakey, fruitx, fruity;
 const int width = 20;
 const int height = 20;
 char dir;
-int speed = 75;
+int speed = 100;
 
 
 Snake *snake;
+Field *field;
 
 void setup() {
 	srand((unsigned)time(NULL));
@@ -27,7 +29,7 @@ void setup() {
 }
 
 
-void field() {
+/*void field() {
 	system("cls");
 	for (int i = 0; i <= (width + 1); i++) {
 		cout << "#";
@@ -53,7 +55,7 @@ void field() {
 	for (int i = 0; i <= (width + 1); i++) {
 		cout << "#";
 	}
-}
+}*/
 
 
 void input() {
@@ -72,15 +74,17 @@ void logic() {
 int main()
 {
 	snake = new Snake(&game_over, width, height);
-
+	field = new Field(height, width, &snakex, &snakey, &fruitx, &fruity);
 	setup();
 	while (!game_over) {
-		field();
+		field->drawing();
+		//field();
 		input();
 		logic();
 		Sleep(speed);
 	}
 	delete snake;
+	delete field;
 	return 0;
 }
 

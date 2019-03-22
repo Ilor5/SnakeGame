@@ -1,6 +1,5 @@
 #pragma once
-class Snake
-{
+class Snake {
 public:
 	Snake(bool *_game_over, int _width, int _height);
 	~Snake();
