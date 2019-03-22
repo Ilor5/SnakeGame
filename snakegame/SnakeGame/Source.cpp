@@ -3,7 +3,7 @@
 #include <conio.h>
 #include "windows.h"
 #include <time.h>
-#include "Movement.h"
+#include "Snake.h"
 using namespace std;
 
 
@@ -15,15 +15,15 @@ char dir;
 int speed = 75;
 
 
-Movement *movement;
+Snake *snake;
 
 void setup() {
 	srand((unsigned)time(NULL));
 	game_over = false;
 	snakex = width / 2;
 	snakey = height / 2;
-	fruitx = rand() % width;
-	fruity = rand() % height;
+	fruitx = rand() % (width + 1) + 1;
+	fruity = rand() % (height + 1) + 1;
 }
 
 
@@ -64,14 +64,14 @@ void input() {
 
 
 void logic() {
-	movement->direction(dir, &snakex, &snakey);
-	movement->border_control(&snakex, &snakey);
+	snake->direction(dir, &snakex, &snakey);
+	snake->border_control(&snakex, &snakey);
+	snake->eating(&fruitx, &fruity, &snakex, &snakey);
 }
-//изменение
 
 int main()
 {
-	movement = new Movement(&game_over, width, height);
+	snake = new Snake(&game_over, width, height);
 
 	setup();
 	while (!game_over) {
@@ -80,7 +80,7 @@ int main()
 		logic();
 		Sleep(speed);
 	}
-	delete movement;
+	delete snake;
 	return 0;
 }
 
