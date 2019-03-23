@@ -3,10 +3,11 @@
 #include "windows.h"
 
 
-Snake::Snake(bool *_game_over, int _width, int _height) {
+Snake::Snake(bool *_game_over, int _width, int _height, int *_score) {
 	game_over = _game_over;
 	width = _width;
 	height = _height;
+	score_num = _score;
 }
 
 
@@ -39,10 +40,11 @@ void Snake::border_control(int *x, int *y) {
 	}
 }
 
-void Snake::eating(int *f_x, int *f_y, int *x, int *y) {			//дописать рост змеи
+void Snake::eating(int *f_x, int *f_y, int *x, int *y, int *_score) {			//дописать рост змеи
 	if (*x == *f_x && *y == *f_y) {
 		srand((unsigned)time(NULL));
 		*f_x = rand() % width + 1;
 		*f_y = rand() % height + 1;
+		*score_num += 10;
 	}
 }

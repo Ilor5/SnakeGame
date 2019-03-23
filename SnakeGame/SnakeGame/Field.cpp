@@ -4,13 +4,14 @@ using namespace std;
 
 
 
-Field::Field(int _height, int _width, int *_snakex, int *_snakey, int *_fruitx, int *_fruity) {
+Field::Field(int _height, int _width, int *_snakex, int *_snakey, int *_fruitx, int *_fruity, int *_score) {
 	height = _height;
 	width = _width;
 	snakex = _snakex;
 	snakey = _snakey;
 	fruitx = _fruitx;
 	fruity = _fruity;
+	score_num = _score;
 }
 
 
@@ -39,4 +40,9 @@ void Field::drawing() {
 	for (int i = 0; i <= (width + 1); i++) {
 		cout << "#";
 	}
+}
+
+void Field::score() {
+	cout << '\n';
+	cout << "Score" << "            " << *score_num;
 }

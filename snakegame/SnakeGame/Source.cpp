@@ -14,10 +14,14 @@ const int width = 20;
 const int height = 20;
 char dir;
 int speed = 100;
+int score_num = 0;
+
 
 
 Snake *snake;
 Field *field;
+
+
 
 void setup() {
 	srand((unsigned)time(NULL));
@@ -27,35 +31,6 @@ void setup() {
 	fruitx = rand() % (width + 1) + 1;
 	fruity = rand() % (height + 1) + 1;
 }
-
-
-/*void field() {
-	system("cls");
-	for (int i = 0; i <= (width + 1); i++) {
-		cout << "#";
-	}
-	cout << "\n";
-	for (int i = 1; i <= (height); i++) {
-		for (int j = 0; j <= (width + 1); j++) {
-			if (j == 0 || j == (width + 1)) {
-				cout << "#";
-			}
-			else if (i == snakey && j == snakex) {
-				cout << '0';
-			}
-			else if (i == fruity && j == fruitx) {
-				cout << '*';
-			}
-			else {
-				cout << " ";
-			}
-		}
-		cout << "\n";
-	}
-	for (int i = 0; i <= (width + 1); i++) {
-		cout << "#";
-	}
-}*/
 
 
 void input() {
@@ -68,17 +43,17 @@ void input() {
 void logic() {
 	snake->direction(dir, &snakex, &snakey);
 	snake->border_control(&snakex, &snakey);
-	snake->eating(&fruitx, &fruity, &snakex, &snakey);
+	snake->eating(&fruitx, &fruity, &snakex, &snakey, &score_num);
 }
 
 int main()
-{
-	snake = new Snake(&game_over, width, height);
-	field = new Field(height, width, &snakex, &snakey, &fruitx, &fruity);
+{	snake = new Snake(&game_over, width, height, &score_num);
+	field = new Field(height, width, &snakex, &snakey, &fruitx, &fruity, &score_num);
 	setup();
 	while (!game_over) {
 		field->drawing();
-		//field();
+		//score_num = 10;
+		field->score();
 		input();
 		logic();
 		Sleep(speed);
