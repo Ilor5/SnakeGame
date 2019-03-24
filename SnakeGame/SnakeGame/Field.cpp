@@ -1,5 +1,6 @@
 #include "Field.h"
 #include <iostream>
+#include "windows.h"
 using namespace std;
 
 
@@ -12,13 +13,20 @@ Field::Field(int _height, int _width, int *_snakex, int *_snakey, int *_fruitx, 
 	fruitx = _fruitx;
 	fruity = _fruity;
 	score_num = _score;
+	system("cls");
 }
 
 
 Field::~Field() {}
 
 void Field::drawing() {
-	system("cls");
+	//system("cls");
+	HANDLE hStdout;
+	COORD  dwCursorPosition;
+	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+	dwCursorPosition.X = 0;
+	dwCursorPosition.Y = 0;
+	SetConsoleCursorPosition(hStdout, dwCursorPosition);
 	for (int i = 0; i <= (width + 1); i++) {
 		cout << "#";
 	}

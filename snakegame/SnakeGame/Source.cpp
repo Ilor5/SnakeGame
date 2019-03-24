@@ -33,28 +33,27 @@ void setup() {
 }
 
 
-void input() {
-	if (_kbhit()) {
-		dir = _getch();
-	}
-}
+//void input() {
+//	if (_kbhit()) {
+//		dir = _getch();
+//	}
+//}
 
 
 void logic() {
-	snake->direction(dir, &snakex, &snakey);
+	snake->direction(&snakex, &snakey);
 	snake->border_control(&snakex, &snakey);
-	snake->eating(&fruitx, &fruity, &snakex, &snakey, &score_num);
+	snake->eating(&fruitx, &fruity, &snakex, &snakey, &score_num, &speed);
 }
 
 int main()
-{	snake = new Snake(&game_over, width, height, &score_num);
+{	snake = new Snake(&game_over, width, height, &score_num, &speed);
 	field = new Field(height, width, &snakex, &snakey, &fruitx, &fruity, &score_num);
 	setup();
 	while (!game_over) {
 		field->drawing();
-		//score_num = 10;
 		field->score();
-		input();
+		//input();
 		logic();
 		Sleep(speed);
 	}
