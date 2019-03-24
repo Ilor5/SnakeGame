@@ -28,26 +28,9 @@ int Snake::getPressedKey() {
 	return 0; 
 }
 
-void Snake::direction(int * x, int * y) {
-	/*switch (lastKeyCode){
-	case VK_UP:
-		*y -= 1;
-		break;
-	case VK_DOWN:
-		*y += 1;
-		break;
-	case VK_LEFT:
-		*x -= 1;
-		break;
-	case VK_RIGHT:
-		*x += 1;
-		break;
-	case 88:
-		*game_over = true;
-		break;
-	default:
-			break;
-	}*/
+void Snake::direction(int * x, int * y, int *_tailx, int *_taily, bool _GrowUp) {
+	*_tailx = *x;
+	*_taily = *y;
 	int keyCode = getPressedKey();
 	lastKeyCode = keyCode != 0 ? keyCode : lastKeyCode;
 	if (lastKeyCode == VK_UP) {
@@ -82,12 +65,14 @@ void Snake::border_control(int *x, int *y) {
 	}
 }
 
-void Snake::eating(int *f_x, int *f_y, int *x, int *y, int *_score, int *_speed) {			//дописать рост змеи
+void Snake::eating(int *f_x, int *f_y, int *x, int *y, int *_score, int *_speed, bool *_GrowUp) {			//дописать рост змеи
 	if (*x == *f_x && *y == *f_y) {
 		srand((unsigned)time(NULL));
 		*f_x = rand() % width + 1;
 		*f_y = rand() % height + 1;
 		*score_num += 10;
-		*speed++;
+		*speed--;
+		*_GrowUp = true;
 	}
 }
+

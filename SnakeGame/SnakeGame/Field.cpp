@@ -1,3 +1,4 @@
+#include <conio.h>
 #include "Field.h"
 #include <iostream>
 #include "windows.h"
@@ -5,22 +6,15 @@ using namespace std;
 
 
 
-Field::Field(int _height, int _width, int *_snakex, int *_snakey, int *_fruitx, int *_fruity, int *_score) {
+Field::Field(int _height, int _width) {
 	height = _height;
 	width = _width;
-	snakex = _snakex;
-	snakey = _snakey;
-	fruitx = _fruitx;
-	fruity = _fruity;
-	score_num = _score;
-	system("cls");
 }
 
 
 Field::~Field() {}
 
 void Field::drawing() {
-	//system("cls");
 	HANDLE hStdout;
 	COORD  dwCursorPosition;
 	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -35,10 +29,6 @@ void Field::drawing() {
 		for (int j = 0; j <= (width + 1); j++) {
 			if (j == 0 || j == (width + 1)) {
 				cout << "#";
-			} else if (i == *snakey && j == *snakex) {
-				cout << '0';
-			} else if (i == *fruity && j == *fruitx) {
-				cout << '*';
 			} else {
 				cout << " ";
 			}
@@ -48,9 +38,47 @@ void Field::drawing() {
 	for (int i = 0; i <= (width + 1); i++) {
 		cout << "#";
 	}
+	cout << '\n';
+	cout << "Score";
 }
 
-void Field::score() {
-	cout << '\n';
-	cout << "Score" << "            " << *score_num;
+void Field::score(int _score) {
+	HANDLE hStdout;
+	COORD  dwCursorPosition;
+	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+	dwCursorPosition.X = width - 5;
+	dwCursorPosition.Y = height + 2;
+	SetConsoleCursorPosition(hStdout, dwCursorPosition);
+	cout << _score;
+}
+
+void Field::DynamicDrawing(int _snakex, int _snakey, int _tailx, int _taily, int _fruitx, int _fruity, bool *_GrowUp) {
+	HANDLE hStdout;
+	COORD  dwCursorPosition;
+	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+	if (*_GrowUp == true) {
+		dwCursorPosition.X = _snakex;
+		dwCursorPosition.Y = _snakey;
+		SetConsoleCursorPosition(hStdout, dwCursorPosition);
+		cout << '0';
+		*_GrowUp = false;
+	}
+	else {
+		dwCursorPosition.X = _tailx;
+		dwCursorPosition.Y = _taily;
+		SetConsoleCursorPosition(hStdout, dwCursorPosition);
+		cout << ' ';
+
+		dwCursorPosition.X = _snakex;
+		dwCursorPosition.Y = _snakey;
+		SetConsoleCursorPosition(hStdout, dwCursorPosition);
+		cout << '0';
+	}
+	
+	
+	dwCursorPosition.X = _fruitx;
+	dwCursorPosition.Y = _fruity;
+	SetConsoleCursorPosition(hStdout, dwCursorPosition);
+	cout << '*';
+
 }
