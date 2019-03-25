@@ -44,11 +44,11 @@ int main()
 {	
 	setup();
 	while (!game_over) {
-		
+		snake->eating(&fruitx, &fruity, &snakex, &snakey, &score_num, &speed, &GrowUp);
 		snake->direction(&snakex, &snakey, &tailx, &taily, GrowUp);
 		field->DynamicDrawing(snakex, snakey, tailx, taily, fruitx, fruity, &GrowUp);
 		snake->border_control(&snakex, &snakey);
-		snake->eating(&fruitx, &fruity, &snakex, &snakey, &score_num, &speed, &GrowUp);
+		
 		field->score(score_num);
 		Sleep(speed);
 	}

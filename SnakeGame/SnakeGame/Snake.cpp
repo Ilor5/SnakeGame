@@ -29,8 +29,12 @@ int Snake::getPressedKey() {
 }
 
 void Snake::direction(int * x, int * y, int *_tailx, int *_taily, bool _GrowUp) {
-	*_tailx = *x;
-	*_taily = *y;
+	if (_GrowUp == false) {
+		*_tailx = *x;
+		*_taily = *y;
+
+	}
+	
 	int keyCode = getPressedKey();
 	lastKeyCode = keyCode != 0 ? keyCode : lastKeyCode;
 	if (lastKeyCode == VK_UP) {

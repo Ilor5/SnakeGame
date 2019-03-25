@@ -56,6 +56,10 @@ void Field::DynamicDrawing(int _snakex, int _snakey, int _tailx, int _taily, int
 	HANDLE hStdout;
 	COORD  dwCursorPosition;
 	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+	dwCursorPosition.X = _fruitx;
+	dwCursorPosition.Y = _fruity;											//сделать сначала вывод фруктов
+	SetConsoleCursorPosition(hStdout, dwCursorPosition);
+	cout << '*';
 	if (*_GrowUp == true) {
 		dwCursorPosition.X = _snakex;
 		dwCursorPosition.Y = _snakey;
@@ -76,9 +80,6 @@ void Field::DynamicDrawing(int _snakex, int _snakey, int _tailx, int _taily, int
 	}
 	
 	
-	dwCursorPosition.X = _fruitx;
-	dwCursorPosition.Y = _fruity;
-	SetConsoleCursorPosition(hStdout, dwCursorPosition);
-	cout << '*';
+	
 
 }
