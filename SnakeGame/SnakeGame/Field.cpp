@@ -52,34 +52,28 @@ void Field::score(int _score) {
 	cout << _score;
 }
 
-void Field::DynamicDrawing(int _snakex, int _snakey, int _tailx, int _taily, int _fruitx, int _fruity, bool *_GrowUp) {
+ void Field::DynamicDrawing(int _snakex, int _snakey, int _tailx, int _taily, int _fruitx, int _fruity, bool *_GrowUp) {
 	HANDLE hStdout;
 	COORD  dwCursorPosition;
 	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+
 	dwCursorPosition.X = _fruitx;
-	dwCursorPosition.Y = _fruity;											//сделать сначала вывод фруктов
+	dwCursorPosition.Y = _fruity;
 	SetConsoleCursorPosition(hStdout, dwCursorPosition);
 	cout << '*';
-	if (*_GrowUp == true) {
-		dwCursorPosition.X = _snakex;
-		dwCursorPosition.Y = _snakey;
-		SetConsoleCursorPosition(hStdout, dwCursorPosition);
-		cout << '0';
-		*_GrowUp = false;
-	}
-	else {
-		dwCursorPosition.X = _tailx;
-		dwCursorPosition.Y = _taily;
-		SetConsoleCursorPosition(hStdout, dwCursorPosition);
-		cout << ' ';
 
-		dwCursorPosition.X = _snakex;
-		dwCursorPosition.Y = _snakey;
-		SetConsoleCursorPosition(hStdout, dwCursorPosition);
-		cout << '0';
-	}
+	dwCursorPosition.X = _tailx;
+	dwCursorPosition.Y = _taily;
+	SetConsoleCursorPosition(hStdout, dwCursorPosition);
+	cout << ' ';
 	
+	dwCursorPosition.X = _snakex;
+	dwCursorPosition.Y = _snakey;
+	SetConsoleCursorPosition(hStdout, dwCursorPosition);
+	cout << '0';
 	
 	
 
-}
+	}
+	
+

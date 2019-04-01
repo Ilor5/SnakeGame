@@ -28,13 +28,11 @@ int Snake::getPressedKey() {
 	return 0; 
 }
 
-void Snake::direction(int * x, int * y, int *_tailx, int *_taily, bool _GrowUp) {
-	if (_GrowUp == false) {
-		*_tailx = *x;
-		*_taily = *y;
+void Snake::direction(int * x, int * y, int *_tailx, int *_taily) {
+	*_tailx = *x;
+	*_taily = *y;
 
-	}
-	
+
 	int keyCode = getPressedKey();
 	lastKeyCode = keyCode != 0 ? keyCode : lastKeyCode;
 	if (lastKeyCode == VK_UP) {
