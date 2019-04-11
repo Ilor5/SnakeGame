@@ -2,12 +2,10 @@
 #include "Snake.h"
 
 
-Snake::Snake(bool *_game_over, int _width, int _height, int *_score, int *_speed) {
+Snake::Snake(bool *_game_over, int _width, int _height) {
 	game_over = _game_over;
 	width = _width;
 	height = _height;
-	score_num = _score;
-	speed = _speed;
 	hInput = GetStdHandle(STD_INPUT_HANDLE);
 	lastKeyCode = 0;
 }
@@ -28,24 +26,26 @@ int Snake::getPressedKey() {
 	return 0; 
 }
 
-void Snake::direction(int * x, int * y, int *_tailx, int *_taily) {
-	*_tailx = *x;
-	*_taily = *y;
-
+void Snake::direction(int * x, int * y, bool *_startGame) {
+	//bool foo = true;
 
 	int keyCode = getPressedKey();
 	lastKeyCode = keyCode != 0 ? keyCode : lastKeyCode;
 	if (lastKeyCode == VK_UP) {
 		*y -= 1;
+		*_startGame = true;
 	}
 	else if (lastKeyCode == VK_DOWN) {
 		*y += 1;
+		*_startGame = true;
 	}
 	else if (lastKeyCode == VK_LEFT) {
 		*x -= 1;
+		*_startGame = true;
 	}
 	else if (lastKeyCode == VK_RIGHT) {
 		*x += 1;
+		*_startGame = true;
 	}
 	else if (lastKeyCode == 'X') {
 		*game_over = true;
@@ -67,14 +67,31 @@ void Snake::border_control(int *x, int *y) {
 	}
 }
 
-void Snake::eating(int *f_x, int *f_y, int *x, int *y, int *_score, int *_speed, bool *_GrowUp) {			//дописать рост змеи
+void Snake::eating(int *f_x, int *f_y, int *x, int *y, int *_score, int *_speed, int *_nTail) {			
 	if (*x == *f_x && *y == *f_y) {
 		srand((unsigned)time(NULL));
 		*f_x = rand() % width + 1;
 		*f_y = rand() % height + 1;
-		*score_num += 10;
-		*speed--;
-		*_GrowUp = true;
+		(*_score) += 10;
+		(*_speed)--;
+		(*_nTail)++;
 	}
 }
 
+void Snake::tail(int tailX[], int tailY[], int _nTail, int _snakex, int _snakey, int *_deleteX, int *_deleteY) {
+	int prevX = tailX[0];
+	int prevY = tailY[0];
+	int prev2x, prev2y;
+	tailX[0] = _snakex;
+	tailY[0] = _snakey;
+	for(int i = 1; i < _nTail; i++) {
+		prev2x = tailX[i];
+		prev2y = tailY[i];
+		tailX[i] = prevX;
+		tailY[i] = prevY;
+		prevX = prev2x;
+		prevY = prev2y;
+	}
+	*_deleteX = prevX;
+	*_deleteY = prevY;
+}

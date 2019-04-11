@@ -9,12 +9,13 @@ using namespace std;
 Field::Field(int _height, int _width) {
 	height = _height;
 	width = _width;
+
 }
 
 
 Field::~Field() {}
 
-void Field::drawing() {
+void Field::drawing(int  _snakex, int _snakey, int _fruitx, int _fruity) {
 	HANDLE hStdout;
 	COORD  dwCursorPosition;
 	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -40,6 +41,18 @@ void Field::drawing() {
 	}
 	cout << '\n';
 	cout << "Score";
+
+	dwCursorPosition.X = _fruitx;
+	dwCursorPosition.Y = _fruity;
+	SetConsoleCursorPosition(hStdout, dwCursorPosition);
+	cout << '*';
+
+
+	dwCursorPosition.X = _snakex;
+	dwCursorPosition.Y = _snakey;
+	SetConsoleCursorPosition(hStdout, dwCursorPosition);
+	cout << '0';
+
 }
 
 void Field::score(int _score) {
@@ -52,28 +65,38 @@ void Field::score(int _score) {
 	cout << _score;
 }
 
- void Field::DynamicDrawing(int _snakex, int _snakey, int _tailx, int _taily, int _fruitx, int _fruity, bool *_GrowUp) {
-	HANDLE hStdout;
-	COORD  dwCursorPosition;
-	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+ void Field::DynamicDrawing(int  _snakex, int _snakey, int _fruitx, int _fruity, int tailX[], int tailY[], int nTail, int  deleteX, int deleteY, bool _startGame) {
+	 if(_startGame) {
+		 HANDLE hStdout;
+		 COORD  dwCursorPosition;
+		 hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	dwCursorPosition.X = _fruitx;
-	dwCursorPosition.Y = _fruity;
-	SetConsoleCursorPosition(hStdout, dwCursorPosition);
-	cout << '*';
+		 dwCursorPosition.X = _fruitx;
+		 dwCursorPosition.Y = _fruity;
+		 SetConsoleCursorPosition(hStdout, dwCursorPosition);
+		 cout << '*';
 
-	dwCursorPosition.X = _tailx;
-	dwCursorPosition.Y = _taily;
-	SetConsoleCursorPosition(hStdout, dwCursorPosition);
-	cout << ' ';
-	
-	dwCursorPosition.X = _snakex;
-	dwCursorPosition.Y = _snakey;
-	SetConsoleCursorPosition(hStdout, dwCursorPosition);
-	cout << '0';
-	
+
+		 dwCursorPosition.X = _snakex;
+		 dwCursorPosition.Y = _snakey;
+		 SetConsoleCursorPosition(hStdout, dwCursorPosition);
+		 cout << '0';
+
+		 for(int k = 0; k < nTail; k++) {
+			 dwCursorPosition.X = tailX[k];
+			 dwCursorPosition.Y = tailY[k];										//надо подтирать хвост за собой
+			 SetConsoleCursorPosition(hStdout, dwCursorPosition);
+			 cout << "o";
+
+		 }
+		 dwCursorPosition.X = deleteX;
+		 dwCursorPosition.Y = deleteY;
+		 SetConsoleCursorPosition(hStdout, dwCursorPosition);
+		 cout << ' ';
+		 }
+	 }
 	
 
-	}
+ 
 	
 

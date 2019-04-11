@@ -15,7 +15,10 @@ const int height = 20;
 char dir;
 int speed = 150;
 int score_num = 0;
-bool GrowUp = true;
+int tailX[100], tailY[100];
+int nTail = 0;
+int deleteX, deleteY;
+bool startGame = false;
 
 
 
@@ -25,7 +28,7 @@ Field *field;
 
 
 void setup() {
-	snake = new Snake(&game_over, width, height, &score_num, &speed);
+	snake = new Snake(&game_over, width, height);
 	field = new Field(height, width);
 	srand((unsigned)time(NULL));
 	game_over = false;
@@ -33,9 +36,11 @@ void setup() {
 	snakey = height / 2;
 	tailx = snakex;
 	taily = snakey;
-	fruitx = rand() % width + 1;
-	fruity = rand() % height + 1;
-	field->drawing();
+	//fruitx = rand() % width + 1;
+	//fruity = rand() % height + 1;
+	fruitx = 13;
+	fruity = 10;
+	field->drawing(snakex, snakey, fruitx, fruity);
 }
 
 
@@ -44,15 +49,13 @@ int main()
 {	
 	setup();
 	while (!game_over) {
-		snake->eating(&fruitx, &fruity, &snakex, &snakey, &score_num, &speed, &GrowUp);
-
-		snake->direction(&snakex, &snakey, &tailx, &taily);
 		
+		snake->direction(&snakex, &snakey, &startGame);
 		snake->border_control(&snakex, &snakey);
+		snake->eating(&fruitx, &fruity, &snakex, &snakey, &score_num, &speed, &nTail);
+		snake->tail(tailX, tailY, nTail, snakex, snakey, &deleteX, &deleteY);
 		
-		
-		field->DynamicDrawing(snakex, snakey, tailx, taily, fruitx, fruity, &GrowUp);
-		
+		field->DynamicDrawing(snakex, snakey, fruitx, fruity, tailX, tailY, nTail, deleteX, deleteY, startGame);
 		field->score(score_num);
 		Sleep(speed);
 	}
