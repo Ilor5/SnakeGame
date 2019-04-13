@@ -1,4 +1,4 @@
-
+﻿
 #include <iostream>
 #include <conio.h>
 #include "windows.h"
@@ -8,8 +8,8 @@
 using namespace std;
 
 
-bool game_over;
-int snakex, snakey, tailx, taily, fruitx, fruity;
+bool gameOver;
+int snakex, snakey, fruitx, fruity;
 const int width = 20;
 const int height = 20;
 char dir;
@@ -20,7 +20,8 @@ int nTail = 0;
 int deleteX, deleteY;
 bool startGame = false;
 
-
+HANDLE hWnd = GetStdHandle(STD_OUTPUT_HANDLE);
+COORD bufferSize;
 
 Snake *snake;
 Field *field;
@@ -28,19 +29,19 @@ Field *field;
 
 
 void setup() {
-	snake = new Snake(&game_over, width, height);
+	snake = new Snake(&gameOver, width, height);
 	field = new Field(height, width);
 	srand((unsigned)time(NULL));
-	game_over = false;
+	gameOver = false;
 	snakex = width / 2;
 	snakey = height / 2;
-	tailx = snakex;
-	taily = snakey;
-	//fruitx = rand() % width + 1;
-	//fruity = rand() % height + 1;
-	fruitx = 13;
-	fruity = 10;
+	fruitx = rand() % width + 1;
+	fruity = rand() % height + 1;
+
+	bufferSize = { 90, 30 };
+	SetConsoleScreenBufferSize(hWnd, bufferSize);
 	field->drawing(snakex, snakey, fruitx, fruity);
+	//gameOver = true;
 }
 
 
@@ -48,9 +49,9 @@ void setup() {
 int main()
 {	
 	setup();
-	while (!game_over) {
+	while (!gameOver) {
 		
-		snake->direction(&snakex, &snakey, &startGame);
+		snake->direction(&snakex, &snakey, &startGame, tailX, tailY, nTail);
 		snake->border_control(&snakex, &snakey);
 		snake->eating(&fruitx, &fruity, &snakex, &snakey, &score_num, &speed, &nTail);
 		snake->tail(tailX, tailY, nTail, snakex, snakey, &deleteX, &deleteY);
@@ -61,6 +62,24 @@ int main()
 	}
 	delete snake;
 	delete field;
+	bufferSize = { 90, 30 };
+	SetConsoleScreenBufferSize(hWnd, bufferSize);
+	system("cls");
+	cout << "  ######      ###    ##     ## ########     #######  ##     ## ######## ########     ####" << endl;
+	cout << " ##    ##    ## ##   ###   ### ##          ##     ## ##     ## ##       ##     ##    ####" << endl;
+	cout << " ##         ##   ##  #### #### ##          ##     ## ##     ## ##       ##     ##    ####" << endl;
+	cout << " ##   #### ##     ## ## ### ## ######      ##     ## ##     ## ######   ########      ## " << endl;
+	cout << " ##    ##  ######### ##     ## ##          ##     ##  ##   ##  ##       ##   ##         " << endl;
+	cout << " ##    ##  ##     ## ##     ## ##          ##     ##   ## ##   ##       ##    ##     ####" << endl;
+	cout << "  ######   ##     ## ##     ## ########     #######     ###    ######## ##     ##    ####" << endl;
+                                                                                                                                                                                 
+
+
+
+
+
+
+	Sleep(100000);
 	return 0;
 }
 

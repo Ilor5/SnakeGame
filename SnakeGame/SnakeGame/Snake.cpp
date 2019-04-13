@@ -2,8 +2,9 @@
 #include "Snake.h"
 
 
+
 Snake::Snake(bool *_game_over, int _width, int _height) {
-	game_over = _game_over;
+	gameOver = _game_over;
 	width = _width;
 	height = _height;
 	hInput = GetStdHandle(STD_INPUT_HANDLE);
@@ -11,6 +12,7 @@ Snake::Snake(bool *_game_over, int _width, int _height) {
 }
 
 Snake::~Snake() {}
+
 
 int Snake::getPressedKey() {
 	DWORD cc;
@@ -26,11 +28,12 @@ int Snake::getPressedKey() {
 	return 0; 
 }
 
-void Snake::direction(int * x, int * y, bool *_startGame) {
+void Snake::direction(int * x, int * y, bool *_startGame, int _tailX[], int _tailY[], int _nTail) {
 	//bool foo = true;
 
 	int keyCode = getPressedKey();
 	lastKeyCode = keyCode != 0 ? keyCode : lastKeyCode;
+	
 	if (lastKeyCode == VK_UP) {
 		*y -= 1;
 		*_startGame = true;
@@ -48,8 +51,25 @@ void Snake::direction(int * x, int * y, bool *_startGame) {
 		*_startGame = true;
 	}
 	else if (lastKeyCode == 'X') {
-		*game_over = true;
+		*gameOver = true;
 	}
+
+	if((in(_tailX, *x, _nTail) && in(_tailY, *y, _nTail)) && ((prevKeyCode == 40 && (lastKeyCode == 39 || lastKeyCode == 37)) || (prevKeyCode == 38 && (lastKeyCode == 39 || lastKeyCode == 37)) || (prevKeyCode == 37 && (lastKeyCode == 38 || lastKeyCode == 40)) || (prevKeyCode == 39 && (lastKeyCode == 38 || lastKeyCode == 40)))) {
+		*gameOver = true;
+	} else if((in(_tailX, *x, _nTail) && in(_tailY, *y, _nTail)) && (prevKeyCode == 38 && lastKeyCode == 40)) {
+		lastKeyCode = 38;
+		*y -= 2;
+	} else if((in(_tailX, *x, _nTail) && in(_tailY, *y, _nTail)) && (prevKeyCode == 40 && lastKeyCode == 38)) {
+		lastKeyCode = 40;
+		*y += 2;
+	} else if((in(_tailX, *x, _nTail) && in(_tailY, *y, _nTail)) && (prevKeyCode == 37 && lastKeyCode == 39)) {
+		lastKeyCode = 37;
+		*x -= 2;
+	} else if((in(_tailX, *x, _nTail) && in(_tailY, *y, _nTail)) && (prevKeyCode == 39 && lastKeyCode == 37)) {
+		lastKeyCode = 39;
+		*x += 2;
+	}
+	prevKeyCode = lastKeyCode;
 }
 
 void Snake::border_control(int *x, int *y) {
@@ -73,7 +93,7 @@ void Snake::eating(int *f_x, int *f_y, int *x, int *y, int *_score, int *_speed,
 		*f_x = rand() % width + 1;
 		*f_y = rand() % height + 1;
 		(*_score) += 10;
-		(*_speed)--;
+		(*_speed) -= 1;
 		(*_nTail)++;
 	}
 }
@@ -84,7 +104,7 @@ void Snake::tail(int tailX[], int tailY[], int _nTail, int _snakex, int _snakey,
 	int prev2x, prev2y;
 	tailX[0] = _snakex;
 	tailY[0] = _snakey;
-	for(int i = 1; i < _nTail; i++) {
+	for(int i = 1; i <= _nTail; i++) {
 		prev2x = tailX[i];
 		prev2y = tailY[i];
 		tailX[i] = prevX;
@@ -94,4 +114,15 @@ void Snake::tail(int tailX[], int tailY[], int _nTail, int _snakex, int _snakey,
 	}
 	*_deleteX = prevX;
 	*_deleteY = prevY;
+}
+
+
+
+bool Snake::in(int mas[], int num, int size) {
+	for(int i = 1; i <= size; i++) {
+		if(num == mas[i]) {
+			return true;
+		}
+	}
+	return false;
 }

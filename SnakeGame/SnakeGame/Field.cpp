@@ -82,17 +82,20 @@ void Field::score(int _score) {
 		 SetConsoleCursorPosition(hStdout, dwCursorPosition);
 		 cout << '0';
 
-		 for(int k = 0; k < nTail; k++) {
+		 for(int k = 1; k <= nTail; k++) {
 			 dwCursorPosition.X = tailX[k];
 			 dwCursorPosition.Y = tailY[k];										//надо подтирать хвост за собой
 			 SetConsoleCursorPosition(hStdout, dwCursorPosition);
 			 cout << "o";
 
 		 }
-		 dwCursorPosition.X = deleteX;
-		 dwCursorPosition.Y = deleteY;
-		 SetConsoleCursorPosition(hStdout, dwCursorPosition);
-		 cout << ' ';
+		 if(deleteX != 0 && deleteY != 0) {
+			 dwCursorPosition.X = deleteX;
+			 dwCursorPosition.Y = deleteY;
+			 SetConsoleCursorPosition(hStdout, dwCursorPosition);
+			 cout << ' ';
+		 }
+		 
 		 }
 	 }
 	
