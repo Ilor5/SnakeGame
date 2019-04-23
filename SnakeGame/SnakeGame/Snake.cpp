@@ -29,7 +29,6 @@ int Snake::getPressedKey() {
 }
 
 void Snake::direction(int * x, int * y, bool *_startGame, int _tailX[], int _tailY[], int _nTail) {
-	//bool foo = true;
 
 	int keyCode = getPressedKey();
 	lastKeyCode = keyCode != 0 ? keyCode : lastKeyCode;

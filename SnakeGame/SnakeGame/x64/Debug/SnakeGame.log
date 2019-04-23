@@ -1,2 +1,6 @@
-﻿  Source.cpp
-  SnakeGame.vcxproj -> C:\Users\Deti\GitHub\SnakeGame\SnakeGame\x64\Debug\SnakeGame.exe
+﻿  Field.cpp
+  Snake.cpp
+  Source.cpp
+  Generating Code...
+  LINK : C:\Users\User\GitHub\SnakeGame\SnakeGame\x64\Debug\SnakeGame.exe not found or not built by the last incremental link; performing full link
+  SnakeGame.vcxproj -> C:\Users\User\GitHub\SnakeGame\SnakeGame\x64\Debug\SnakeGame.exe

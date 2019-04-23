@@ -41,7 +41,6 @@ void setup() {
 	bufferSize = { 90, 30 };
 	SetConsoleScreenBufferSize(hWnd, bufferSize);
 	field->drawing(snakex, snakey, fruitx, fruity);
-	//gameOver = true;
 }
 
 
